@@ -12,9 +12,6 @@ import ru.anlim.rmatch.R;
 
 public class LastMatch extends MainActivity.PlaceholderFragment {
 
-    public LastMatch() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_last_match, container, false);

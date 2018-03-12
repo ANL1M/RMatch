@@ -1,5 +1,6 @@
 package ru.anlim.rmatch;
 
+import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,10 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ru.anlim.rmatch.fragments.FutureMatch;
 import ru.anlim.rmatch.fragments.LaLiga;
 import ru.anlim.rmatch.fragments.LastMatch;
+import ru.anlim.rmatch.logic.JsoupHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,24 +40,39 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tabs);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                //Toast.makeText(MainActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
+        JsoupHelper jsoupHelper = new JsoupHelper();
+        jsoupHelper.execute(MainActivity.this);
     }
 
     public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
 
         public static PlaceholderFragment newInstance(int sectionNumber) {
 
             PlaceholderFragment fragment = null;
             switch (sectionNumber){
-                case 1:
+                case 0:
                     fragment = new LastMatch();
                     break;
-                case 2:
+                case 1:
                     fragment = new FutureMatch();
                     break;
-                case 3:
+                case 2:
                     fragment = new LaLiga();
                     break;
             }
@@ -71,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return PlaceholderFragment.newInstance(position + 1);
+            return PlaceholderFragment.newInstance(position);
         }
 
         @Override

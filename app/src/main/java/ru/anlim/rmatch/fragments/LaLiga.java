@@ -12,9 +12,6 @@ import ru.anlim.rmatch.R;
 
 public class LaLiga extends MainActivity.PlaceholderFragment {
 
-    public LaLiga() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_la_liga, container, false);
