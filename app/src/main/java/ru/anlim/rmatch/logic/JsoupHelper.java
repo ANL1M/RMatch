@@ -3,6 +3,7 @@ package ru.anlim.rmatch.logic;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,19 +12,42 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.HashMap;
 
-import ru.anlim.rmatch.R;
+import ru.anlim.rmatch.MainActivity;
+import ru.anlim.rmatch.fragments.FutureMatch;
 
-public class JsoupHelper extends AsyncTask<Context, Void, Void> {
 
-    HashMap mapFutureMatch, mapLastMatch, mapLaLiga;
+public class JsoupHelper extends AsyncTask<Integer, Void, Context> {
 
+    private Boolean noInternetException;
+    private int typeLoad;
+    private FutureMatch futureMatch;
+    private MainActivity mainActivity;
+    private Context context;
+
+    public JsoupHelper(FutureMatch futureMatch){
+        this.futureMatch = futureMatch;
+    }
+
+    public JsoupHelper(MainActivity mainActivity){
+        this.mainActivity = mainActivity;
+    }
 
     @Override
-    protected Void doInBackground(Context... contexts) {
+    protected Context doInBackground(Integer ... integers) {
 
-        mapFutureMatch = new HashMap();
-        mapLastMatch = new HashMap();
-        Context context = contexts[0];
+        HashMap mapFutureMatch = new HashMap();
+        HashMap mapLastMatch = new HashMap();
+        typeLoad = integers[0];
+
+        switch (integers[0]){
+            case 101:
+                context = futureMatch.getContext();
+                break;
+            case 100:
+                context = mainActivity.getApplicationContext();
+                break;
+        }
+
         DBHelper dbHelper = new DBHelper(context);
 
         try {
@@ -68,15 +92,31 @@ public class JsoupHelper extends AsyncTask<Context, Void, Void> {
 
             //Получаем результат прошлого матча
             Elements elementsResultLastMatch = document.select("#match_box_1 span");
+            mapFutureMatch.put("Result","VS");
             mapLastMatch.put("Result", elementsResultLastMatch.get(1).text());
 
-            dbHelper.dbWriteResult(mapLastMatch, 0);
-            dbHelper.dbWriteResult(mapFutureMatch, 1);
+            dbHelper.dbWriteResult(mapLastMatch, "LastMatch");
+            dbHelper.dbWriteResult(mapFutureMatch, "FutureMatch");
 
+            noInternetException = false;
         } catch (IOException e) {
             e.printStackTrace();
+            noInternetException = true;
         }
 
-        return null;
+        return context;
+    }
+
+    @Override
+    protected void onPostExecute(Context context) {
+        super.onPostExecute(context);
+
+        if(noInternetException){
+            Toast.makeText(context, "Не удалось получить данные", Toast.LENGTH_SHORT).show();
+        }
+
+        if(typeLoad == 101){
+            futureMatch.mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 }

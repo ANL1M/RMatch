@@ -21,9 +21,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 import ru.anlim.rmatch.fragments.FutureMatch;
 import ru.anlim.rmatch.fragments.LaLiga;
 import ru.anlim.rmatch.fragments.LastMatch;
+import ru.anlim.rmatch.logic.DBHelper;
 import ru.anlim.rmatch.logic.JsoupHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,30 +37,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        ViewPager mViewPager = findViewById(R.id.container);
+        final ViewPager mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(1);
         TabLayout tabLayout = findViewById(R.id.tabs);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                //Toast.makeText(MainActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-
-        JsoupHelper jsoupHelper = new JsoupHelper();
-        jsoupHelper.execute(MainActivity.this);
+        //Проверка наличия данных загрузка/отображение
+        DBHelper dbHelper = new DBHelper(this);
+        HashMap<String,String> hashMap = dbHelper.dbReadResult("FutureMatch");
+        if(hashMap.isEmpty()){
+            loadData();
+        }
     }
 
     public static class PlaceholderFragment extends Fragment {
@@ -97,4 +89,10 @@ public class MainActivity extends AppCompatActivity {
             return 3;
         }
     }
+
+    public void loadData(){
+        JsoupHelper jsoupHelper = new JsoupHelper(this);
+        jsoupHelper.execute(100);
+    }
+
 }

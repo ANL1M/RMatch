@@ -51,7 +51,8 @@ public class DBHelper extends SQLiteOpenHelper{
                 + HomeImage     + " text,"
                 + GuestImage    + " text,"
                 + MatchDate     + " text,"
-                + Tournir       + " text"
+                + Tournir       + " text,"
+                + Result        + " text"
                 + ")");
 
         db.execSQL("create table " + TABLE_LA_LIGA + "(" + KEY_ID + " integer primary key," + KEY_RESULT + " text" + ")");
@@ -61,7 +62,7 @@ public class DBHelper extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
     }
 
-    public void dbWriteResult(HashMap hashMap, int tableID){
+    public void dbWriteResult(HashMap hashMap, String tableName){
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -72,22 +73,35 @@ public class DBHelper extends SQLiteOpenHelper{
         cv.put(GuestImage,(String) hashMap.get(GuestImage   ));
         cv.put(MatchDate ,(String) hashMap.get(MatchDate    ));
         cv.put(Tournir   ,(String) hashMap.get(Tournir      ));
+        cv.put(Result    ,(String) hashMap.get(Result       ));
 
-        switch (tableID){
-            case 0:
-                db.execSQL("delete from LastMatch");
-                cv.put(Result,(String) hashMap.get(Result));
-                db.insert(this.TABLE_LAST_MATCH, null,cv);
-                break;
-            case 1:
-                db.execSQL("delete from FutureMatch");
-                db.insert(this.TABLE_FUTURE_MATCH, null,cv);
-                break;
-        }
+        db.execSQL("delete from "+ tableName);
+        db.insert(tableName, null,cv);
 
         cv.clear();
         db.close();
         dbUpdateName();
+    }
+
+    public HashMap<String, String> dbReadResult(String tableName){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(tableName,null, null, null, null, null, null);
+        cursor.moveToFirst();
+
+        HashMap<String, String> hashMap = new HashMap<>();
+        if (cursor.getCount() == 1){
+            hashMap.put(Home      , cursor.getString(cursor.getColumnIndexOrThrow(Home       )));
+            hashMap.put(Guest     , cursor.getString(cursor.getColumnIndexOrThrow(Guest      )));
+            hashMap.put(HomeImage , cursor.getString(cursor.getColumnIndexOrThrow(HomeImage  )));
+            hashMap.put(GuestImage, cursor.getString(cursor.getColumnIndexOrThrow(GuestImage )));
+            hashMap.put(MatchDate , cursor.getString(cursor.getColumnIndexOrThrow(MatchDate  )));
+            hashMap.put(Tournir   , cursor.getString(cursor.getColumnIndexOrThrow(Tournir    )));
+            hashMap.put(Result    , cursor.getString(cursor.getColumnIndexOrThrow(Result     )));
+        }
+
+        cursor.close();
+        db.close();
+        return hashMap;
     }
 
     private void dbUpdateName(){
