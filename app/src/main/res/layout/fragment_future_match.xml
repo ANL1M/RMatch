@@ -58,9 +58,10 @@
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toTopOf="@+id/tvVSFuture"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imHomeFuture"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.524" />
+            app:layout_constraintVertical_bias="0.512" />
 
         <TextView
             android:id="@+id/tvGuestFuture"
@@ -73,34 +74,34 @@
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLigaFuture" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imGuestFuture"
+            app:layout_constraintTop_toBottomOf="@+id/tvLigaFuture"
+            app:layout_constraintVertical_bias="0.49" />
 
         <ImageView
             android:id="@+id/imHomeFuture"
             android:layout_width="100sp"
             android:layout_height="100sp"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toTopOf="@+id/tvVSFuture"
-            app:layout_constraintEnd_toStartOf="@+id/tvHomeFuture"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.573" />
 
         <ImageView
             android:id="@+id/imGuestFuture"
-            android:layout_width="100sp"
+            android:layout_width="100dp"
             android:layout_height="100sp"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tvGuestFuture"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLigaFuture" />
+            app:layout_constraintTop_toBottomOf="@+id/tvLigaFuture"
+            app:layout_constraintVertical_bias="0.489" />
 
     </android.support.constraint.ConstraintLayout>
 

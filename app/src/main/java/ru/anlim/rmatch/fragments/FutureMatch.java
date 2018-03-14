@@ -1,10 +1,7 @@
 package ru.anlim.rmatch.fragments;
 
 
-import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
@@ -74,5 +69,9 @@ public class FutureMatch extends MainActivity.PlaceholderFragment implements Swi
     public void onRefresh() {
         JsoupHelper jsoupHelper = new JsoupHelper(this);
         jsoupHelper.execute(101);
+    }
+
+    public void onToast(){
+        Toast.makeText(getActivity(), "TOsta", Toast.LENGTH_SHORT).show();
     }
 }

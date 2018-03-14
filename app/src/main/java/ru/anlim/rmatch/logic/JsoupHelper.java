@@ -10,6 +10,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import ru.anlim.rmatch.MainActivity;
@@ -37,6 +38,7 @@ public class JsoupHelper extends AsyncTask<Integer, Void, Context> {
 
         HashMap mapFutureMatch = new HashMap();
         HashMap mapLastMatch = new HashMap();
+        ArrayList<String> listLaliga= new ArrayList<>();
         typeLoad = integers[0];
 
         switch (integers[0]){
@@ -97,6 +99,15 @@ public class JsoupHelper extends AsyncTask<Integer, Void, Context> {
 
             dbHelper.dbWriteResult(mapLastMatch, "LastMatch");
             dbHelper.dbWriteResult(mapFutureMatch, "FutureMatch");
+
+            //Получение данных по таблице
+            Document documentLiga = Jsoup.connect("http://football.sport-express.ru/foreign/spain/laleague").get();
+            Elements elements = documentLiga.select(".m_all");
+            for (int i = 0; i < elements.size(); i++) {
+                listLaliga.add(elements.get(i).text());
+            }
+            dbHelper.dbWriteLiga(listLaliga);
+
 
             noInternetException = false;
         } catch (IOException e) {

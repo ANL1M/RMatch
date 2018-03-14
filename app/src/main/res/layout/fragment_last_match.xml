@@ -46,55 +46,58 @@
 
     <TextView
         android:id="@+id/tvHomeLast"
+        style="@style/TextView.Bolt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="44dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        style="@style/TextView.Bolt"
+        android:text="Реал Мадрид"
         app:layout_constraintBottom_toTopOf="@+id/tvResultLast"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imHomeLast"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.575" />
 
     <TextView
         android:id="@+id/tvGuestLast"
+        style="@style/TextView.Bolt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        style="@style/TextView.Bolt"
+        android:text="Эйбар"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLigaLast" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imGuestLast"
+        app:layout_constraintTop_toBottomOf="@+id/tvLigaLast"
+        app:layout_constraintVertical_bias="0.49" />
 
     <ImageView
         android:id="@+id/imHomeLast"
         android:layout_width="100sp"
         android:layout_height="100sp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/tvResultLast"
-        app:layout_constraintEnd_toStartOf="@+id/tvHomeLast"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.573" />
 
     <ImageView
         android:id="@+id/imGuestLast"
         android:layout_width="100sp"
         android:layout_height="100sp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tvGuestLast"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLigaLast" />
 </android.support.constraint.ConstraintLayout>
