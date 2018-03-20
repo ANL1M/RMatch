@@ -1,6 +1,5 @@
 package ru.anlim.rmatch;
 
-import android.database.Cursor;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 
@@ -9,10 +8,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 import ru.anlim.rmatch.fragments.FutureMatch;
 import ru.anlim.rmatch.fragments.LaLiga;
@@ -34,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tabs);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
-        loadData();
 
         //Проверка наличия данных загрузка/отображение
         DBHelper dbHelper = new DBHelper(this);
@@ -83,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void loadData(){
-        JsoupHelper jsoupHelper = new JsoupHelper(this);
-        jsoupHelper.execute(100);
+    public void loadData() {
+        JsoupHelper jsoupHelper = new JsoupHelper();
+        jsoupHelper.execute(this);
     }
 }

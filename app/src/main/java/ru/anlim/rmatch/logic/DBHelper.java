@@ -154,6 +154,7 @@ public class DBHelper extends SQLiteOpenHelper{
         db.execSQL("update FutureMatch set Guest = \"Реал Мадрид\" where Guest = \"Реал\"");
         db.execSQL("update LastMatch set Home = \"Реал Мадрид\" where Home = \"Реал\"");
         db.execSQL("update FutureMatch set Home = \"Реал Мадрид\" where Home = \"Реал\"");
+        db.execSQL("update LaLiga set Team = \"Реал Мадрид\" where Team = \"Реал\"");
 
         db.execSQL("update LastMatch set HomeImage = replace (HomeImage, \"_medium\", \"\")");
         db.execSQL("update LastMatch set GuestImage = replace (GuestImage, \"_medium\", \"\")");

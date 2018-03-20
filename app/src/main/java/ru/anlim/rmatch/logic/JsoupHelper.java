@@ -1,6 +1,5 @@
 package ru.anlim.rmatch.logic;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -13,44 +12,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import ru.anlim.rmatch.MainActivity;
-import ru.anlim.rmatch.fragments.FutureMatch;
+import ru.anlim.rmatch.R;
+
+import static ru.anlim.rmatch.fragments.FutureMatch.onStopRefreshLayout;
 
 
-public class JsoupHelper extends AsyncTask<Integer, Void, Context> {
+public class JsoupHelper extends AsyncTask<Context, Void, Context> {
 
-    private Boolean noInternetException;
-    private int typeLoad;
-    private FutureMatch futureMatch;
-    private MainActivity mainActivity;
-    private Context context;
-
-    public JsoupHelper(FutureMatch futureMatch){
-        this.futureMatch = futureMatch;
-    }
-
-    public JsoupHelper(MainActivity mainActivity){
-        this.mainActivity = mainActivity;
-    }
+    boolean noInternetException;
 
     @Override
-    protected Context doInBackground(Integer ... integers) {
+    protected Context doInBackground(Context ... contexts) {
 
         HashMap mapFutureMatch = new HashMap();
         HashMap mapLastMatch = new HashMap();
         ArrayList<String> listLaliga= new ArrayList<>();
-        typeLoad = integers[0];
-
-        switch (integers[0]){
-            case 101:
-                context = futureMatch.getContext();
-                break;
-            case 100:
-                context = mainActivity.getApplicationContext();
-                break;
-        }
-
-        DBHelper dbHelper = new DBHelper(context);
+        DBHelper dbHelper = new DBHelper(contexts[0]);
 
         try {
             Document document = Jsoup.connect("http://football.sport-express.ru/command/68").get();
@@ -97,37 +74,34 @@ public class JsoupHelper extends AsyncTask<Integer, Void, Context> {
             mapFutureMatch.put("Result","VS");
             mapLastMatch.put("Result", elementsResultLastMatch.get(1).text());
 
-            dbHelper.dbWriteResult(mapLastMatch, "LastMatch");
-            dbHelper.dbWriteResult(mapFutureMatch, "FutureMatch");
-
             //Получение данных по таблице
             Document documentLiga = Jsoup.connect("http://football.sport-express.ru/foreign/spain/laleague").get();
             Elements elements = documentLiga.select(".m_all");
             for (int i = 0; i < elements.size(); i++) {
                 listLaliga.add(elements.get(i).text());
             }
+
             dbHelper.dbWriteLiga(listLaliga);
-
-
+            dbHelper.dbWriteResult(mapLastMatch, "LastMatch");
+            dbHelper.dbWriteResult(mapFutureMatch, "FutureMatch");
             noInternetException = false;
+
         } catch (IOException e) {
+
             e.printStackTrace();
             noInternetException = true;
         }
-
-        return context;
+        return contexts[0];
     }
 
     @Override
     protected void onPostExecute(Context context) {
         super.onPostExecute(context);
 
-        if(noInternetException){
-            Toast.makeText(context, "Не удалось получить данные", Toast.LENGTH_SHORT).show();
+        if (noInternetException){
+            Toast.makeText(context, R.string.Error, Toast.LENGTH_SHORT).show();
         }
 
-        if(typeLoad == 101){
-            futureMatch.mSwipeRefreshLayout.setRefreshing(false);
-        }
+        onStopRefreshLayout();
     }
 }

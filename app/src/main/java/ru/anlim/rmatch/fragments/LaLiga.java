@@ -27,13 +27,21 @@ public class LaLiga extends MainActivity.PlaceholderFragment {
                 dbHelper.KEY_ID,
                 dbHelper.Team,
                 dbHelper.Games,
+                dbHelper.Wins,
+                dbHelper.Draw,
+                dbHelper.Lose,
+                dbHelper.Diff,
                 dbHelper.Points
         };
         int i[] = new int[]{
                 R.id.tvNumber,
                 R.id.tvTeam,
                 R.id.tvGames,
-                R.id.tvPoins
+                R.id.tvWin,
+                R.id.tvDraw,
+                R.id.tvLose,
+                R.id.tvDiff,
+                R.id.tvPoints
         };
 
         SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(getActivity(), R.layout.item, cursor, s, i, 1);

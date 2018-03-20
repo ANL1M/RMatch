@@ -22,7 +22,7 @@ public class FutureMatch extends MainActivity.PlaceholderFragment implements Swi
 
     TextView tvHomeFuture, tvGuestFuture, tvDateFuture, tvLigaFuture, tvVSFuture;
     ImageView imHomeFuture, imGuestFuture;
-    public SwipeRefreshLayout mSwipeRefreshLayout;
+    public static SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,11 +67,11 @@ public class FutureMatch extends MainActivity.PlaceholderFragment implements Swi
 
     @Override
     public void onRefresh() {
-        JsoupHelper jsoupHelper = new JsoupHelper(this);
-        jsoupHelper.execute(101);
+        JsoupHelper jsoupHelper = new JsoupHelper();
+        jsoupHelper.execute(getActivity());
     }
 
-    public void onToast(){
-        Toast.makeText(getActivity(), "TOsta", Toast.LENGTH_SHORT).show();
+    public static void onStopRefreshLayout(){
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }
