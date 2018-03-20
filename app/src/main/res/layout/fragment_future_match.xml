@@ -25,7 +25,7 @@
 
         <TextView
             android:id="@+id/tvVSFuture"
-            style="@style/TextView.Bolt"
+            style="@style/TextView.Bolt.23"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -49,7 +49,7 @@
 
         <TextView
             android:id="@+id/tvHomeFuture"
-            style="@style/TextView.Bolt"
+            style="@style/TextView.Bolt.23"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -65,7 +65,7 @@
 
         <TextView
             android:id="@+id/tvGuestFuture"
-            style="@style/TextView.Bolt"
+            style="@style/TextView.Bolt.23"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"

@@ -3,4 +3,8 @@
     <string name="last_match">Прошлый матч</string>
     <string name="future_match">Ближайший матч</string>
     <string name="la_liga">Чемпионат</string>
+    <string name="number">№</string>
+    <string name="team">Команда</string>
+    <string name="games">Игры</string>
+    <string name="points">Очки</string>
 </resources>
