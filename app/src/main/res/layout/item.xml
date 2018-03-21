@@ -12,94 +12,83 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="1"
-        android:textColor="@android:color/black"
-        android:textSize="25sp"
+        style="@style/TextView.Black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvTeam"
+        style="@style/TextView.Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Реал Мадрид"
-        android:textColor="@android:color/black"
-        android:textSize="24sp"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toEndOf="@+id/tvNumber"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvPoints"
+        style="@style/TextView.Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/glametrix_light"
         android:paddingRight="20dp"
-        android:text="100"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvGames"
+        style="@style/Digit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="39"
-        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvNumber"
         app:layout_constraintTop_toBottomOf="@+id/tvTeam" />
 
     <TextView
         android:id="@+id/tvWin"
+        style="@style/Digit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginTop="8dp"
-        android:text="35"
         android:textColor="@android:color/holo_green_dark"
-        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvGames"
         app:layout_constraintTop_toBottomOf="@+id/tvTeam" />
 
     <TextView
         android:id="@+id/tvDraw"
+        style="@style/Digit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="3"
         android:textColor="@color/real_yellow"
-        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvWin"
         app:layout_constraintTop_toBottomOf="@+id/tvTeam" />
 
     <TextView
         android:id="@+id/tvLose"
+        style="@style/Digit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="1"
         android:textColor="@color/real_red"
-        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvDraw"
         app:layout_constraintTop_toBottomOf="@+id/tvTeam" />
 
     <TextView
         android:id="@+id/tvDiff"
+        style="@style/Digit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
-        android:text="73-33"
-        android:textSize="20sp"
-        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPoints" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTeam" />
 
 </android.support.constraint.ConstraintLayout>
