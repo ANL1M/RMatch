@@ -122,6 +122,15 @@ public class DBHelper extends SQLiteOpenHelper{
         db.close();
     }
 
+    public void dbWriteURLImageLaLiga(ArrayList arrayList){
+        SQLiteDatabase db = this.getWritableDatabase();
+        for (int i = 0; i < arrayList.size(); i++) {
+            int j = i+1;
+            db.execSQL("update LaLiga set ImageURL = \" " + arrayList.get(i)+ " \" where _id = " + j );
+        }
+        db.close();
+    }
+
     public HashMap<String, String> dbReadResult(String tableName){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(tableName,null, null, null, null, null, null);
@@ -154,7 +163,13 @@ public class DBHelper extends SQLiteOpenHelper{
         db.execSQL("update FutureMatch set Guest = \"Реал Мадрид\" where Guest = \"Реал\"");
         db.execSQL("update LastMatch set Home = \"Реал Мадрид\" where Home = \"Реал\"");
         db.execSQL("update FutureMatch set Home = \"Реал Мадрид\" where Home = \"Реал\"");
+
         db.execSQL("update LaLiga set Team = \"Реал Мадрид\" where Team = \"Реал\"");
+
+        db.execSQL("update LastMatch set HomeImage = replace (HomeImage, \"https\", \"http\")");
+        db.execSQL("update LastMatch set GuestImage = replace (GuestImage, \"https\", \"http\")");
+        db.execSQL("update FutureMatch set HomeImage = replace (HomeImage, \"https\", \"http\")");
+        db.execSQL("update FutureMatch set GuestImage = replace (GuestImage, \"https\", \"http\")");
 
         db.execSQL("update LastMatch set HomeImage = replace (HomeImage, \"_medium\", \"\")");
         db.execSQL("update LastMatch set GuestImage = replace (GuestImage, \"_medium\", \"\")");

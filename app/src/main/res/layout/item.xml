@@ -7,12 +7,12 @@
 
     <TextView
         android:id="@+id/tvNumber"
-        android:layout_width="50sp"
-        android:layout_height="70sp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
         style="@style/TextView.Black"
+        android:layout_width="25sp"
+        android:layout_height="65sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,8 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintStart_toEndOf="@+id/tvNumber"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/imTeam"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/tvNumber"
+        app:layout_constraintStart_toEndOf="@+id/imTeam"
         app:layout_constraintTop_toBottomOf="@+id/tvTeam" />
 
     <TextView
@@ -68,7 +68,8 @@
         android:layout_marginTop="8dp"
         android:textColor="@color/real_yellow"
         app:layout_constraintStart_toEndOf="@+id/tvWin"
-        app:layout_constraintTop_toBottomOf="@+id/tvTeam" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTeam"
+        tools:text="3" />
 
     <TextView
         android:id="@+id/tvLose"
@@ -90,5 +91,14 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTeam" />
+
+    <ImageView
+        android:id="@+id/imTeam"
+        android:layout_width="65sp"
+        android:layout_height="65sp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/tvNumber"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

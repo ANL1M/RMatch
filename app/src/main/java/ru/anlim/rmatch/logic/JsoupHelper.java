@@ -27,6 +27,7 @@ public class JsoupHelper extends AsyncTask<Context, Void, Context> {
         HashMap mapFutureMatch = new HashMap();
         HashMap mapLastMatch = new HashMap();
         ArrayList<String> listLaliga= new ArrayList<>();
+        ArrayList<String> listURLLiga = new ArrayList<>();
         DBHelper dbHelper = new DBHelper(contexts[0]);
 
         try {
@@ -81,7 +82,16 @@ public class JsoupHelper extends AsyncTask<Context, Void, Context> {
                 listLaliga.add(elements.get(i).text());
             }
 
+            Elements elements2 = documentLiga.select(".m_all a");
+            for (int i = 0; i < elements2.size(); i = i + 5) {
+                String urlTeam = String.valueOf(elements2.get(i).attr("href"));
+                String numberTeam = urlTeam.replaceAll("[^0-9]", "");
+                String urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
+                listURLLiga.add(urlImage);
+            }
+
             dbHelper.dbWriteLiga(listLaliga);
+            dbHelper.dbWriteURLImageLaLiga(listURLLiga);
             dbHelper.dbWriteResult(mapLastMatch, "LastMatch");
             dbHelper.dbWriteResult(mapFutureMatch, "FutureMatch");
             noInternetException = false;
