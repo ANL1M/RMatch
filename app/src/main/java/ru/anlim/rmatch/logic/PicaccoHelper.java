@@ -13,6 +13,7 @@ public class PicaccoHelper {
 
         Picasso.get()
                 .load(url.trim())
+                //.networkPolicy(NetworkPolicy.OFFLINE)
                 .into(imageView);
     }
 }

@@ -25,6 +25,7 @@ public class LastMatch extends MainActivity.PlaceholderFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_last_match, container, false);
 
+        //Инициализация сущностей
         tvHomeLast = rootView.findViewById(R.id.tvHomeLast);
         tvGuestLast = rootView.findViewById(R.id.tvGuestLast);
         tvDateLast = rootView.findViewById(R.id.tvDateLast);
@@ -34,6 +35,7 @@ public class LastMatch extends MainActivity.PlaceholderFragment {
         imHomeLast = rootView.findViewById(R.id.imHomeLast);
         imGuestLast = rootView.findViewById(R.id.imGuestLast);
 
+        //Метод наполнения экрана данными
         setResult();
 
         return rootView;

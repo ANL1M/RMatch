@@ -8,28 +8,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
 import ru.anlim.rmatch.MainActivity;
 import ru.anlim.rmatch.R;
 import ru.anlim.rmatch.logic.DBHelper;
-import ru.anlim.rmatch.logic.JsoupHelper;
 import ru.anlim.rmatch.logic.PicaccoHelper;
 
-public class FutureMatch extends MainActivity.PlaceholderFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class FutureMatch extends MainActivity.PlaceholderFragment {
 
     TextView tvHomeFuture, tvGuestFuture, tvDateFuture, tvLigaFuture, tvVSFuture;
     ImageView imHomeFuture, imGuestFuture;
-    public static SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_future_match, container, false);
 
+        //Инициализация сущностей
         tvHomeFuture = rootView.findViewById(R.id.tvHomeFuture);
         tvGuestFuture = rootView.findViewById(R.id.tvGuestFuture);
         tvDateFuture = rootView.findViewById(R.id.tvDateFuture);
@@ -39,13 +35,7 @@ public class FutureMatch extends MainActivity.PlaceholderFragment implements Swi
         imHomeFuture = rootView.findViewById(R.id.imHomeFuture);
         imGuestFuture = rootView.findViewById(R.id.imGuestFuture);
 
-        mSwipeRefreshLayout = rootView.findViewById(R.id.swipe);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setColorSchemeResources(
-                R.color.real_blue,
-                R.color.real_red,
-                R.color.real_yellow);
-
+        //Метод наполнения экрана данными
         setResult();
 
         return rootView;
@@ -65,15 +55,5 @@ public class FutureMatch extends MainActivity.PlaceholderFragment implements Swi
 
         PicaccoHelper.LoadPic(hashMap.get("HomeImage"), imHomeFuture);
         PicaccoHelper.LoadPic(hashMap.get("GuestImage"), imGuestFuture);
-    }
-
-    @Override
-    public void onRefresh() {
-        JsoupHelper jsoupHelper = new JsoupHelper();
-        jsoupHelper.execute(getActivity());
-    }
-
-    public static void onStopRefreshLayout(){
-        mSwipeRefreshLayout.setRefreshing(false);
     }
 }

@@ -12,14 +12,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ru.anlim.rmatch.MainActivity;
 import ru.anlim.rmatch.R;
-
-import static ru.anlim.rmatch.fragments.FutureMatch.onStopRefreshLayout;
-
 
 public class JsoupHelper extends AsyncTask<Context, Void, Context> {
 
     boolean noInternetException;
+    MainActivity mainActivity;
+
+    public JsoupHelper(MainActivity mainActivity){
+        this.mainActivity = mainActivity;
+    }
 
     @Override
     protected Context doInBackground(Context ... contexts) {
@@ -112,6 +115,6 @@ public class JsoupHelper extends AsyncTask<Context, Void, Context> {
             Toast.makeText(context, R.string.Error, Toast.LENGTH_SHORT).show();
         }
 
-        onStopRefreshLayout();
+        mainActivity.setResult();
     }
 }

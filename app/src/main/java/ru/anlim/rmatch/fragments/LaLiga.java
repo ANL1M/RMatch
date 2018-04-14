@@ -1,6 +1,7 @@
 package ru.anlim.rmatch.fragments;
 
 
+import android.app.Fragment;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -27,11 +28,20 @@ public class LaLiga extends MainActivity.PlaceholderFragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_la_liga, container, false);
 
+        //Инициализация сущностей
         DBHelper dbHelper = new DBHelper(getActivity());
         Cursor cursor = dbHelper.dbReadLiga();
-        final PicaccoHelper PicaccoHelper = new PicaccoHelper();
-
         ListView lvLiga = rootView.findViewById(R.id.lvLiga);
+
+        //Метод наполнения экрана данными
+        setResult(lvLiga, cursor);
+
+        return rootView;
+    }
+
+    public void setResult(ListView lvLiga, Cursor cursor){
+
+        final PicaccoHelper PicaccoHelper = new PicaccoHelper();
         lvLiga.setAdapter(new CursorAdapter(getActivity(), cursor, 1) {
 
             @Override
@@ -64,7 +74,5 @@ public class LaLiga extends MainActivity.PlaceholderFragment {
                 PicaccoHelper.LoadPic(cursor.getString(cursor.getColumnIndexOrThrow("ImageURL")), ivTeam);
             }
         });
-
-        return rootView;
     }
 }
