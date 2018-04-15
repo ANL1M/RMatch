@@ -40,13 +40,27 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void setResult(){
         mSwipeRefreshLayout.setRefreshing(false);
         //Инициализация сущностей
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        final SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         final ViewPager mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(1);
         TabLayout tabLayout = findViewById(R.id.tabs);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mSwipeRefreshLayout.setEnabled(position != 2);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     @Override
@@ -101,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 R.color.real_blue,
                 R.color.real_red,
                 R.color.real_yellow);
+        mSwipeRefreshLayout.setSize(SwipeRefreshLayout.LARGE);
         mSwipeRefreshLayout.setProgressViewEndTarget(true, 800);
     }
 }
