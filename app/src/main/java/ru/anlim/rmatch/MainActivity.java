@@ -19,6 +19,7 @@ import ru.anlim.rmatch.logic.JsoupHelper;
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     SwipeRefreshLayout mSwipeRefreshLayout;
+    int currPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         //Инициализация сущностей
         initSwipeRefresh();
+        final ViewPager mViewPager = findViewById(R.id.container);
+        currPage = 9; //произвольное число не равное номеру вкладки
 
         //Проверка наличия данных загрузка/отображение
         DBHelper dbHelper = new DBHelper(this);
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         final SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         final ViewPager mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setCurrentItem(1);
+        mViewPager.setCurrentItem(currPage == 9 ? 1 : currPage);
         TabLayout tabLayout = findViewById(R.id.tabs);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
@@ -55,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             public void onPageSelected(int position) {
                 mSwipeRefreshLayout.setEnabled(position != 2);
+                currPage  = position;
             }
 
             @Override
@@ -93,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        private SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -116,6 +120,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 R.color.real_red,
                 R.color.real_yellow);
         mSwipeRefreshLayout.setSize(SwipeRefreshLayout.LARGE);
-        mSwipeRefreshLayout.setProgressViewEndTarget(true, 800);
+        mSwipeRefreshLayout.setProgressViewOffset(true, 50, 300);
     }
 }
