@@ -17,8 +17,8 @@ import ru.anlim.rmatch.R;
 
 public class JsoupHelper extends AsyncTask<Context, Void, Context> {
 
-    boolean noInternetException;
-    MainActivity mainActivity;
+    private boolean noInternetException;
+    private MainActivity mainActivity;
 
     public JsoupHelper(MainActivity mainActivity){
         this.mainActivity = mainActivity;
@@ -27,8 +27,8 @@ public class JsoupHelper extends AsyncTask<Context, Void, Context> {
     @Override
     protected Context doInBackground(Context ... contexts) {
 
-        HashMap mapFutureMatch = new HashMap();
-        HashMap mapLastMatch = new HashMap();
+        HashMap <String, String> mapFutureMatch = new HashMap<>();
+        HashMap <String, String> mapLastMatch = new HashMap<>();
         ArrayList<String> listLaliga= new ArrayList<>();
         ArrayList<String> listURLLiga = new ArrayList<>();
         DBHelper dbHelper = new DBHelper(contexts[0]);
@@ -62,7 +62,7 @@ public class JsoupHelper extends AsyncTask<Context, Void, Context> {
             mapLastMatch.put("MatchDate", elementsDataLastMatch.get(0).text());
             mapLastMatch.put("Tournir", elementsDataLastMatch.get(1).text());
 
-            //Если было дополниительное время в прошлом матче
+            //Если было дополнительное время в прошлом матче
             if(mapLastMatch.get("Guest").equals("ДВ")){
                 //mapLastMatch.remove("nameGuestLast");
                 //mapLastMatch.remove("hrefGuestImageLM");
@@ -96,6 +96,7 @@ public class JsoupHelper extends AsyncTask<Context, Void, Context> {
             dbHelper.dbWriteLiga(listLaliga);
             dbHelper.dbWriteURLImageLaLiga(listURLLiga);
             dbHelper.dbWriteResult(mapLastMatch, "LastMatch");
+            if(!mapFutureMatch.isEmpty())
             dbHelper.dbWriteResult(mapFutureMatch, "FutureMatch");
             noInternetException = false;
 
