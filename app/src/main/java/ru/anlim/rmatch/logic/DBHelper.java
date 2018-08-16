@@ -106,7 +106,7 @@ public class DBHelper extends SQLiteOpenHelper{
 
         db.execSQL("delete from "+ TABLE_LA_LIGA);
 
-        for (int i = 0; i < arrayList.size(); i = i + 11) {
+        for (int i = 0; i < arrayList.size(); i = i + 9) { //+9 для межсезонья +11 для сезона
             cv.put(Team   , (String) arrayList.get(i));
             cv.put(Games  , (String) arrayList.get(i+1));
             cv.put(Wins   , (String) arrayList.get(i+2));
