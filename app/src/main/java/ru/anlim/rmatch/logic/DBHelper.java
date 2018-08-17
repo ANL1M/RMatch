@@ -11,28 +11,28 @@ import java.util.HashMap;
 
 public class DBHelper extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "rmMatchDB.db";
-    public static final String TABLE_LAST_MATCH = "LastMatch";
-    public static final String TABLE_FUTURE_MATCH = "FutureMatch";
-    public static final String TABLE_LA_LIGA = "LaLiga";
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "rmMatchDB.db";
+    private static final String TABLE_LAST_MATCH = "LastMatch";
+    private static final String TABLE_FUTURE_MATCH = "FutureMatch";
+    private static final String TABLE_LA_LIGA = "LaLiga";
 
-    public static final String KEY_ID = "_id";
-    public static final String Home         = "Home";
-    public static final String Guest        = "Guest";
-    public static final String HomeImage    = "HomeImage";
-    public static final String GuestImage   = "GuestImage";
-    public static final String MatchDate    = "MatchDate";
-    public static final String Tournir      = "Tournir";
-    public static final String Result       = "Result";
-    public static final String Team         = "Team";
-    public static final String Games        = "Games";
-    public static final String Wins         = "Wins";
-    public static final String Draw         = "Draw";
-    public static final String Lose         = "Lose";
-    public static final String Diff         = "Diff";
-    public static final String Points       = "Points";
-    public static final String ImageURL     = "ImageURL";
+    private static final String KEY_ID = "_id";
+    private static final String Home         = "Home";
+    private static final String Guest        = "Guest";
+    private static final String HomeImage    = "HomeImage";
+    private static final String GuestImage   = "GuestImage";
+    private static final String MatchDate    = "MatchDate";
+    private static final String Tournir      = "Tournir";
+    private static final String Result       = "Result";
+    private static final String Team         = "Team";
+    private static final String Games        = "Games";
+    private static final String Wins         = "Wins";
+    private static final String Draw         = "Draw";
+    private static final String Lose         = "Lose";
+    private static final String Diff         = "Diff";
+    private static final String Points       = "Points";
+    private static final String ImageURL     = "ImageURL";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -106,7 +106,10 @@ public class DBHelper extends SQLiteOpenHelper{
 
         db.execSQL("delete from "+ TABLE_LA_LIGA);
 
-        for (int i = 0; i < arrayList.size(); i = i + 9) { //+9 для межсезонья +11 для сезона
+        // 220 для сезона, 180 для начала и конца сезона, 140 для межсезонья
+        int countIndex = arrayList.size() / 20;
+
+        for (int i = 0; i < arrayList.size(); i = i + countIndex) {
             cv.put(Team   , (String) arrayList.get(i));
             cv.put(Games  , (String) arrayList.get(i+1));
             cv.put(Wins   , (String) arrayList.get(i+2));

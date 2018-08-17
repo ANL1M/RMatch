@@ -64,9 +64,6 @@ public class JsoupHelper extends AsyncTask<Context, Void, Context> {
 
             //Если было дополнительное время в прошлом матче
             if(mapLastMatch.get("Guest").equals("ДВ")){
-                //mapLastMatch.remove("nameGuestLast");
-                //mapLastMatch.remove("hrefGuestImageLM");
-                //mapLastMatch.remove("tournirResLast");
 
                 mapLastMatch.put("Guest", elementsLastMatch.get(3).attr("alt"));
                 mapLastMatch.put("GuestImage", elementsLastMatch.get(3).attr("src"));
@@ -87,7 +84,11 @@ public class JsoupHelper extends AsyncTask<Context, Void, Context> {
 
 
             Elements elements2 = documentLiga.select(".m_all a");
-            for (int i = 0; i < elements2.size(); i = i + 3) {  // +3 для межсезонья +5 для сезона
+
+            // 100 для сезона, 60 для начала и конца сезона, 20 для межсезонья
+            int countIndex = elements2.size() /20;
+
+            for (int i = 0; i < elements2.size(); i = i + countIndex) {  // +3 для межсезонья +5 для сезона
                 String urlTeam = String.valueOf(elements2.get(i).attr("href"));
                 String numberTeam = urlTeam.replaceAll("[^0-9]", "");
                 String urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
