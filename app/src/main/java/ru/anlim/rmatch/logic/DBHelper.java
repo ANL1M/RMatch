@@ -110,13 +110,13 @@ public class DBHelper extends SQLiteOpenHelper{
         int countIndex = arrayList.size() / 20;
 
         for (int i = 0; i < arrayList.size(); i = i + countIndex) {
-            cv.put(Team   , (String) arrayList.get(i));
-            cv.put(Games  , (String) arrayList.get(i+1));
-            cv.put(Wins   , (String) arrayList.get(i+2));
-            cv.put(Draw   , (String) arrayList.get(i+3));
-            cv.put(Lose   , (String) arrayList.get(i+4));
-            cv.put(Diff   , (String) arrayList.get(i+5));
-            cv.put(Points , (String) arrayList.get(i+6));
+            cv.put(Team   , (String) arrayList.get(i+1));
+            cv.put(Games  , (String) arrayList.get(i+2));
+            cv.put(Wins   , (String) arrayList.get(i+3));
+            cv.put(Draw   , (String) arrayList.get(i+4));
+            cv.put(Lose   , (String) arrayList.get(i+5));
+            cv.put(Diff   , (String) arrayList.get(i+6));
+            cv.put(Points , (String) arrayList.get(i+7));
 
             db.insert(TABLE_LA_LIGA, null,cv);
         }

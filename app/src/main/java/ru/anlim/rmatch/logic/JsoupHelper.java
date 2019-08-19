@@ -34,49 +34,56 @@ public class JsoupHelper extends AsyncTask<Context, Void, Context> {
         DBHelper dbHelper = new DBHelper(contexts[0]);
 
         try {
-            Document document = Jsoup.connect("http://football.sport-express.ru/command/68").get();
+            Document document = Jsoup.connect("https://www.sport-express.ru/football/L/command/68").get();
+            Elements elementsMatch = document.select("table a");
 
             //Будущий матч
             //Получаем названия команд и изображения для будущего матча
-            Elements elementsNextMatch = document.select("#match_box_2 img");
-            mapFutureMatch.put("Home", elementsNextMatch.get(1).attr("alt"));
-            mapFutureMatch.put("Guest", elementsNextMatch.get(2).attr("alt"));
-            mapFutureMatch.put("HomeImage", elementsNextMatch.get(1).attr("src"));
-            mapFutureMatch.put("GuestImage", elementsNextMatch.get(2).attr("src"));
+            mapFutureMatch.put("Home", elementsMatch.get(5).text());
+            mapFutureMatch.put("Guest", elementsMatch.get(6).text());
+            mapFutureMatch.put("MatchDate",elementsMatch.get(7).text());
+            mapFutureMatch.put("Result","");
 
-            //Получаем дату и название лиги для будущего матча
-            Elements elementsDataNextMatch = document.select("#match_box_2 div");
-            mapFutureMatch.put("MatchDate",elementsDataNextMatch.get(0).text());
-            mapFutureMatch.put("Tournir", elementsDataNextMatch.get(1).text());
+            String numberTeam = elementsMatch.get(5).attr("href").replaceAll("[^0-9]", "");
+            String urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
+            mapFutureMatch.put("HomeImage", urlImage);
+
+            numberTeam = elementsMatch.get(6).attr("href").replaceAll("[^0-9]", "");
+            urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
+            mapFutureMatch.put("GuestImage", urlImage);
+
 
             //Прошлый матч
             //Получаем названия команд и изображения для прошлого матча
-            Elements elementsLastMatch = document.select("#match_box_1 img");
-            mapLastMatch.put("Home", elementsLastMatch.get(1).attr("alt"));
-            mapLastMatch.put("Guest", elementsLastMatch.get(2).attr("alt"));
-            mapLastMatch.put("HomeImage", elementsLastMatch.get(1).attr("src"));
-            mapLastMatch.put("GuestImage", elementsLastMatch.get(2).attr("src"));
+            mapLastMatch.put("Home", elementsMatch.get(2).text());
+            mapLastMatch.put("Guest", elementsMatch.get(3).text());
+            mapLastMatch.put("MatchDate", "");
+            mapLastMatch.put("Result", elementsMatch.get(4).text());
 
-            //Получаем дату и название лиги для прошлого матча
-            Elements elementsDataLastMatch = document.select("#match_box_1 div");
-            mapLastMatch.put("MatchDate", elementsDataLastMatch.get(0).text());
-            mapLastMatch.put("Tournir", elementsDataLastMatch.get(1).text());
+            numberTeam = elementsMatch.get(2).attr("href").replaceAll("[^0-9]", "");
+            urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
+            mapLastMatch.put("HomeImage", urlImage);
 
-            //Если было дополнительное время в прошлом матче
+            numberTeam = elementsMatch.get(3).attr("href").replaceAll("[^0-9]", "");
+            urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
+            mapLastMatch.put("GuestImage", urlImage);
+
+            //Получаем название лиги для будущего и прошлого матча
+            Elements elementsTournir = document.select("td");
+            mapFutureMatch.put("Tournir", elementsTournir.get(18).text());
+            mapLastMatch.put("Tournir", elementsTournir.get(14).text());
+
+            /*//Если было дополнительное время в прошлом матче
             if(mapLastMatch.get("Guest").equals("ДВ")){
 
-                mapLastMatch.put("Guest", elementsLastMatch.get(3).attr("alt"));
-                mapLastMatch.put("GuestImage", elementsLastMatch.get(3).attr("src"));
+                //mapLastMatch.put("Guest", elementsLastMatch.get(3).attr("alt"));
+                //mapLastMatch.put("GuestImage", elementsLastMatch.get(3).attr("src"));
                 mapLastMatch.put("Tournir", elementsDataLastMatch.get(2).text());
-            }
+            }*/
 
-            //Получаем результат прошлого матча
-            Elements elementsResultLastMatch = document.select("#match_box_1 span");
-            mapFutureMatch.put("Result","VS");
-            mapLastMatch.put("Result", elementsResultLastMatch.get(1).text());
 
             //Получение данных по таблице
-            Document documentLiga = Jsoup.connect("http://football.sport-express.ru/foreign/spain/laleague").get();
+            Document documentLiga = Jsoup.connect("https://www.sport-express.ru/football/L/foreign/spain/laleague").get();
             Elements elements = documentLiga.select(".m_all");
             for (int i = 0; i < elements.size(); i++) {
                 listLaliga.add(elements.get(i).text());
@@ -90,8 +97,8 @@ public class JsoupHelper extends AsyncTask<Context, Void, Context> {
 
             for (int i = 0; i < elements2.size(); i = i + countIndex) {  // +3 для межсезонья +5 для сезона
                 String urlTeam = String.valueOf(elements2.get(i).attr("href"));
-                String numberTeam = urlTeam.replaceAll("[^0-9]", "");
-                String urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
+                numberTeam = urlTeam.replaceAll("[^0-9]", "");
+                urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
                 listURLLiga.add(urlImage);
             }
 
