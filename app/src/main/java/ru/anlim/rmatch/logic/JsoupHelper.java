@@ -39,32 +39,32 @@ public class JsoupHelper extends AsyncTask<Context, Void, Context> {
 
             //Будущий матч
             //Получаем названия команд и изображения для будущего матча
-            mapFutureMatch.put("Home", elementsMatch.get(5).text());
-            mapFutureMatch.put("Guest", elementsMatch.get(6).text());
-            mapFutureMatch.put("MatchDate",elementsMatch.get(7).text());
+            mapFutureMatch.put("Home", elementsMatch.get(6).text());
+            mapFutureMatch.put("Guest", elementsMatch.get(7).text());
+            mapFutureMatch.put("MatchDate",elementsMatch.get(8).text());
             mapFutureMatch.put("Result","");
 
-            String numberTeam = elementsMatch.get(5).attr("href").replaceAll("[^0-9]", "");
+            String numberTeam = elementsMatch.get(6).attr("href").replaceAll("[^0-9]", "");
             String urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
             mapFutureMatch.put("HomeImage", urlImage);
 
-            numberTeam = elementsMatch.get(6).attr("href").replaceAll("[^0-9]", "");
+            numberTeam = elementsMatch.get(7).attr("href").replaceAll("[^0-9]", "");
             urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
             mapFutureMatch.put("GuestImage", urlImage);
 
 
             //Прошлый матч
             //Получаем названия команд и изображения для прошлого матча
-            mapLastMatch.put("Home", elementsMatch.get(2).text());
-            mapLastMatch.put("Guest", elementsMatch.get(3).text());
+            mapLastMatch.put("Home", elementsMatch.get(3).text());
+            mapLastMatch.put("Guest", elementsMatch.get(4).text());
             mapLastMatch.put("MatchDate", "");
-            mapLastMatch.put("Result", elementsMatch.get(4).text());
+            mapLastMatch.put("Result", elementsMatch.get(5).text());
 
-            numberTeam = elementsMatch.get(2).attr("href").replaceAll("[^0-9]", "");
+            numberTeam = elementsMatch.get(3).attr("href").replaceAll("[^0-9]", "");
             urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
             mapLastMatch.put("HomeImage", urlImage);
 
-            numberTeam = elementsMatch.get(3).attr("href").replaceAll("[^0-9]", "");
+            numberTeam = elementsMatch.get(4).attr("href").replaceAll("[^0-9]", "");
             urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
             mapLastMatch.put("GuestImage", urlImage);
 
@@ -88,7 +88,6 @@ public class JsoupHelper extends AsyncTask<Context, Void, Context> {
             for (int i = 0; i < elements.size(); i++) {
                 listLaliga.add(elements.get(i).text());
             }
-
 
             Elements elements2 = documentLiga.select(".m_all a");
 
