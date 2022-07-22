@@ -1,129 +1,98 @@
-package ru.anlim.rmatch.logic;
+package ru.anlim.rmatch.logic
 
-import android.content.Context;
-import android.os.AsyncTask;
-import android.widget.Toast;
+import ru.anlim.rmatch.MainActivity
+import android.os.AsyncTask
+import org.jsoup.Jsoup
+import android.widget.Toast
+import ru.anlim.rmatch.R
+import java.io.IOException
+import java.util.ArrayList
+import java.util.HashMap
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+class JsoupHelper : AsyncTask<Void, Void, String>() {
+    private var noInternetException = false
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import ru.anlim.rmatch.MainActivity;
-import ru.anlim.rmatch.R;
-
-public class JsoupHelper extends AsyncTask<Context, Void, Context> {
-
-    private boolean noInternetException;
-    private MainActivity mainActivity;
-
-    public JsoupHelper(MainActivity mainActivity){
-        this.mainActivity = mainActivity;
-    }
-
-    @Override
-    protected Context doInBackground(Context ... contexts) {
-
-        HashMap <String, String> mapFutureMatch = new HashMap<>();
-        HashMap <String, String> mapLastMatch = new HashMap<>();
-        ArrayList<String> listLaliga= new ArrayList<>();
-        ArrayList<String> listURLLiga = new ArrayList<>();
-        DBHelper dbHelper = new DBHelper(contexts[0]);
-
+    override fun doInBackground(vararg params: Void?): String? {
+        val mapFutureMatch = HashMap<String, String>()
+        val mapLastMatch = HashMap<String, String>()
+        val listLaliga = ArrayList<String>()
+        val listURLLiga = ArrayList<String>()
+        val dbHelper = DBHelper(MainActivity().context)
         try {
-            Document document = Jsoup.connect("https://www.sport-express.ru/football/L/command/68").get();
-            Elements elementsMatch = document.select("table a");
+            val document = Jsoup.connect("https://www.sport-express.ru/football/L/command/68").get()
+            val elementsMatch = document.select("table a")
 
             //Будущий матч
             //Получаем названия команд и изображения для будущего матча
-            mapFutureMatch.put("Home", elementsMatch.get(6).text());
-            mapFutureMatch.put("Guest", elementsMatch.get(7).text());
-            mapFutureMatch.put("MatchDate",elementsMatch.get(8).text());
-            mapFutureMatch.put("Result","");
-
-            String numberTeam = elementsMatch.get(6).attr("href").replaceAll("[^0-9]", "");
-            String urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
-            mapFutureMatch.put("HomeImage", urlImage);
-
-            numberTeam = elementsMatch.get(7).attr("href").replaceAll("[^0-9]", "");
-            urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
-            mapFutureMatch.put("GuestImage", urlImage);
+            mapFutureMatch["Home"] = elementsMatch[6].text()
+            mapFutureMatch["Guest"] = elementsMatch[7].text()
+            mapFutureMatch["MatchDate"] = elementsMatch[8].text()
+            mapFutureMatch["Result"] = ""
+            var numberTeam = elementsMatch[6].attr("href").replace("[^0-9]".toRegex(), "")
+            var urlImage = "http://ss.sport-express.ru/img/football/commands/$numberTeam.png"
+            mapFutureMatch["HomeImage"] = urlImage
+            numberTeam = elementsMatch[7].attr("href").replace("[^0-9]".toRegex(), "")
+            urlImage = "http://ss.sport-express.ru/img/football/commands/$numberTeam.png"
+            mapFutureMatch["GuestImage"] = urlImage
 
 
             //Прошлый матч
             //Получаем названия команд и изображения для прошлого матча
-            mapLastMatch.put("Home", elementsMatch.get(3).text());
-            mapLastMatch.put("Guest", elementsMatch.get(4).text());
-            mapLastMatch.put("MatchDate", "");
-            mapLastMatch.put("Result", elementsMatch.get(5).text());
-
-            numberTeam = elementsMatch.get(3).attr("href").replaceAll("[^0-9]", "");
-            urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
-            mapLastMatch.put("HomeImage", urlImage);
-
-            numberTeam = elementsMatch.get(4).attr("href").replaceAll("[^0-9]", "");
-            urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
-            mapLastMatch.put("GuestImage", urlImage);
+            mapLastMatch["Home"] = elementsMatch[3].text()
+            mapLastMatch["Guest"] = elementsMatch[4].text()
+            mapLastMatch["MatchDate"] = ""
+            mapLastMatch["Result"] = elementsMatch[5].text()
+            numberTeam = elementsMatch[3].attr("href").replace("[^0-9]".toRegex(), "")
+            urlImage = "http://ss.sport-express.ru/img/football/commands/$numberTeam.png"
+            mapLastMatch["HomeImage"] = urlImage
+            numberTeam = elementsMatch[4].attr("href").replace("[^0-9]".toRegex(), "")
+            urlImage = "http://ss.sport-express.ru/img/football/commands/$numberTeam.png"
+            mapLastMatch["GuestImage"] = urlImage
 
             //Получаем название лиги для будущего и прошлого матча
-            Elements elementsTournir = document.select("td");
-            mapFutureMatch.put("Tournir", elementsTournir.get(18).text());
-            mapLastMatch.put("Tournir", elementsTournir.get(14).text());
-
-            /*//Если было дополнительное время в прошлом матче
-            if(mapLastMatch.get("Guest").equals("ДВ")){
-
-                //mapLastMatch.put("Guest", elementsLastMatch.get(3).attr("alt"));
-                //mapLastMatch.put("GuestImage", elementsLastMatch.get(3).attr("src"));
-                mapLastMatch.put("Tournir", elementsDataLastMatch.get(2).text());
-            }*/
-
+            val elementsTournament = document.select("td")
+            mapFutureMatch["Tournament"] = elementsTournament[18].text()
+            mapLastMatch["Tournament"] = elementsTournament[14].text()
 
             //Получение данных по таблице
-            Document documentLiga = Jsoup.connect("https://www.sport-express.ru/football/L/foreign/spain/laleague").get();
-            Elements elements = documentLiga.select(".m_all");
-            for (int i = 0; i < elements.size(); i++) {
-                listLaliga.add(elements.get(i).text());
+            val documentLiga =
+                Jsoup.connect("https://www.sport-express.ru/football/L/foreign/spain/laleague")
+                    .get()
+            val elements = documentLiga.select(".m_all")
+            for (i in elements.indices) {
+                listLaliga.add(elements[i].text())
             }
-
-            Elements elements2 = documentLiga.select(".m_all a");
+            val elements2 = documentLiga.select(".m_all a")
 
             // 100 для сезона, 60 для начала и конца сезона, 20 для межсезонья
-            int countIndex = elements2.size() /20;
-
-            for (int i = 0; i < elements2.size(); i = i + countIndex) {  // +3 для межсезонья +5 для сезона
-                String urlTeam = String.valueOf(elements2.get(i).attr("href"));
-                numberTeam = urlTeam.replaceAll("[^0-9]", "");
-                urlImage = "http://ss.sport-express.ru/img/football/commands/" + numberTeam + ".png";
-                listURLLiga.add(urlImage);
+            val countIndex = elements2.size / 20
+            var i = 0
+            while (i < elements2.size) {
+                // +3 для межсезонья +5 для сезона
+                val urlTeam = elements2[i].attr("href").toString()
+                numberTeam = urlTeam.replace("[^0-9]".toRegex(), "")
+                urlImage = "http://ss.sport-express.ru/img/football/commands/$numberTeam.png"
+                listURLLiga.add(urlImage)
+                i += countIndex
             }
+            dbHelper.dbWriteLiga(listLaliga)
+            dbHelper.dbWriteURLImageLaLiga(listURLLiga)
+            dbHelper.dbWriteResult(mapLastMatch, "LastMatch")
 
-            dbHelper.dbWriteLiga(listLaliga);
-            dbHelper.dbWriteURLImageLaLiga(listURLLiga);
-            dbHelper.dbWriteResult(mapLastMatch, "LastMatch");
-            if(!mapFutureMatch.isEmpty())
-            dbHelper.dbWriteResult(mapFutureMatch, "FutureMatch");
-            noInternetException = false;
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            noInternetException = true;
+            if (mapFutureMatch.isNotEmpty()) dbHelper.dbWriteResult(mapFutureMatch, "FutureMatch")
+                noInternetException = false
+        } catch (e: IOException) {
+            e.printStackTrace()
+            noInternetException = true
         }
-        return contexts[0];
+        return null
     }
 
-    @Override
-    protected void onPostExecute(Context context) {
-        super.onPostExecute(context);
-
-        if (noInternetException){
-            Toast.makeText(context, R.string.Error, Toast.LENGTH_SHORT).show();
+    override fun onPostExecute(result: String?) {
+        super.onPostExecute(null)
+        if (noInternetException) {
+            Toast.makeText(MainActivity().context, R.string.Error, Toast.LENGTH_SHORT).show()
         }
-
-        mainActivity.setResult();
+        MainActivity().setResult()
     }
 }

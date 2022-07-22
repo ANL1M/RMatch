@@ -1,58 +1,57 @@
-package ru.anlim.rmatch.fragments;
+package ru.anlim.rmatch.fragments
 
+import ru.anlim.rmatch.MainActivity.PlaceholderFragment
+import android.widget.TextView
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
+import ru.anlim.rmatch.R
+import ru.anlim.rmatch.logic.PicaccoHelper
+import ru.anlim.rmatch.logic.DBHelper
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+class FutureMatch : PlaceholderFragment() {
+    private var tvHomeFuture: TextView? = null
+    private var tvGuestFuture: TextView? = null
+    private var tvDateFuture: TextView? = null
+    private var tvLigaFuture: TextView? = null
+    private var tvVSFuture: TextView? = null
+    private var imHomeFuture: ImageView? = null
+    private var imGuestFuture: ImageView? = null
 
-import java.util.HashMap;
+    override fun onCreateView (
 
-import ru.anlim.rmatch.MainActivity;
-import ru.anlim.rmatch.R;
-import ru.anlim.rmatch.logic.DBHelper;
-import ru.anlim.rmatch.logic.PicaccoHelper;
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?): View? {
 
-public class FutureMatch extends MainActivity.PlaceholderFragment {
+            val rootView = inflater.inflate(R.layout.fragment_future_match, container, false)
 
-    TextView tvHomeFuture, tvGuestFuture, tvDateFuture, tvLigaFuture, tvVSFuture;
-    ImageView imHomeFuture, imGuestFuture;
+            //Инициализация сущностей
+            tvHomeFuture = rootView.findViewById(R.id.tvHomeFuture)
+            tvGuestFuture = rootView.findViewById(R.id.tvGuestFuture)
+            tvDateFuture = rootView.findViewById(R.id.tvDateFuture)
+            tvLigaFuture = rootView.findViewById(R.id.tvLigaFuture)
+            tvVSFuture = rootView.findViewById(R.id.tvVSFuture)
+            imHomeFuture = rootView.findViewById(R.id.imHomeFuture)
+            imGuestFuture = rootView.findViewById(R.id.imGuestFuture)
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_future_match, container, false);
-
-        //Инициализация сущностей
-        tvHomeFuture = rootView.findViewById(R.id.tvHomeFuture);
-        tvGuestFuture = rootView.findViewById(R.id.tvGuestFuture);
-        tvDateFuture = rootView.findViewById(R.id.tvDateFuture);
-        tvLigaFuture = rootView.findViewById(R.id.tvLigaFuture);
-        tvVSFuture = rootView.findViewById(R.id.tvVSFuture);
-
-        imHomeFuture = rootView.findViewById(R.id.imHomeFuture);
-        imGuestFuture = rootView.findViewById(R.id.imGuestFuture);
-
-        //Метод наполнения экрана данными
-        setResult();
-
-        return rootView;
+            //Метод наполнения экрана данными
+            setResult()
+            return rootView
     }
 
-    public void setResult(){
-
-        PicaccoHelper PicaccoHelper = new PicaccoHelper();
-        DBHelper dbHelper = new DBHelper(getActivity());
-        HashMap<String, String> hashMap = dbHelper.dbReadResult("FutureMatch");
-
-        tvHomeFuture.   setText(hashMap.get("Home"));
-        tvGuestFuture.  setText(hashMap.get("Guest"));
-        tvDateFuture.   setText(hashMap.get("MatchDate"));
-        tvLigaFuture.   setText(hashMap.get("Tournir"));
-        tvVSFuture.     setText(hashMap.get("Result"));
-
-        PicaccoHelper.LoadPic(hashMap.get("HomeImage"), imHomeFuture);
-        PicaccoHelper.LoadPic(hashMap.get("GuestImage"), imGuestFuture);
+    private fun setResult() {
+        val picaccoHelper = PicaccoHelper()
+        val dbHelper = DBHelper(activity)
+        val hashMap = dbHelper.dbReadResult("FutureMatch")
+        tvHomeFuture!!.text = hashMap["Home"]
+        tvGuestFuture!!.text = hashMap["Guest"]
+        tvDateFuture!!.text = hashMap["MatchDate"]
+        tvLigaFuture!!.text = hashMap["Tournament"]
+        tvVSFuture!!.text = hashMap["Result"]
+        picaccoHelper.loadPic(hashMap["HomeImage"], imHomeFuture)
+        picaccoHelper.loadPic(hashMap["GuestImage"], imGuestFuture)
     }
 }
